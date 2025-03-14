@@ -44,8 +44,7 @@ The configuration in `index.js` includes additional parameters:
 - **DYNAMIC_COMPUTE_UNIT_LIMIT** & **DYNAMIC_SLIPPAGE**: Flags for dynamic settings.
 - **PRIORITIZATION_FEE**: Fee configuration for transaction prioritization.
 - **INPUT_MINT / OUTPUT_MINT**: The token mints (e.g., SOL and USDC).
-- **AMOUNT_TYPE**: Can be `"AMOUNT"`, or `"PERCENT"`.
-- **AMOUNT_VALUE**: The amount to swap (or percentage if using `"PERCENT"`).
+- **AMOUNT**: The amount value for the swap. The value can be specified as a number (e.g., “100”), which is a fixed native amount, or as a percentage (e.g., “50%”), which is a percentage of the balance.
 
 ## Usage
 

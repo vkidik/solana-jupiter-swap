@@ -20,9 +20,8 @@ const CONFIG = {
     PRIORITY_LEVEL: "veryHigh",
   },
   INPUT_MINT: "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB", // the token from which the amount is debited (for example, USDT)
-  OUTPUT_MINT: "So11111111111111111111111111111111111111112", // // the token that we receive (for example, Wrapped SOL)
-  AMOUNT_TYPE: "AMOUNT", // Replace with "AMOUNT" for a fixed amount, or "PERCENT" for calculating the percent of the balance
-  AMOUNT_VALUE: 100, // If the AMOUNT_TYPE === "PERCENT", then the value is in percent; if "AMOUNT" – a fixed amount in native units.
+  OUTPUT_MINT: "So11111111111111111111111111111111111111112", // the token that we receive (for example, Wrapped SOL)
+  AMOUNT: "100" // The value can be specified as a number (e.g., “100”), which is a fixed native amount, or as a percentage (e.g., “50%”), which is a percentage of the balance
 };
 
 const connection = new Connection("https://api.mainnet-beta.solana.com");
@@ -79,20 +78,20 @@ const getTokenBalance = async (wallet, tokenMint) => {
 const getAmount = async (wallet) => {
   try {
     const decimals = await getTokenDecimals(CONFIG.INPUT_MINT);
-    if (!decimals) throw new Error("Cannot determine token decimals for INPUT_MINT: " + CONFIG.INPUT_MINT)
+    if (!decimals) throw new Error("Cannot determine token decimals for INPUT_MINT: " + CONFIG.INPUT_MINT);
     
-    if (CONFIG.AMOUNT_TYPE === "PERCENT") {
-      if (typeof CONFIG.AMOUNT_VALUE !== "number") throw new Error("AMOUNT_VALUE must be a number for PERCENT mode.")
-      
+    let amount;
+    if (CONFIG.AMOUNT.trim().endsWith("%")) {
+      const percentValue = parseFloat(CONFIG.AMOUNT.slice(0, -1));
+      if (isNaN(percentValue)) throw new Error("Invalid percentage value in amount: " + CONFIG.AMOUNT);
       const balance = await getTokenBalance(wallet, CONFIG.INPUT_MINT);
-      return Math.floor((balance * CONFIG.AMOUNT_VALUE / 100) * (10 ** decimals));
-    } else if (CONFIG.AMOUNT_TYPE === "AMOUNT") {
-      if (typeof CONFIG.AMOUNT_VALUE !== "number") throw new Error("AMOUNT_VALUE must be a number for AMOUNT mode.")
-      
-      return CONFIG.AMOUNT_VALUE * (10 ** decimals);
+      amount = Math.floor((balance * percentValue / 100) * (10 ** decimals));
     } else {
-      throw new Error("Invalid AMOUNT_TYPE in configuration. Must be 'PERCENT' or 'AMOUNT'");
+      const fixedValue = parseFloat(CONFIG.AMOUNT);
+      if (isNaN(fixedValue)) throw new Error("Invalid fixed amount value: " + CONFIG.AMOUNT);
+      amount = fixedValue * (10 ** decimals);
     }
+    return amount;
   } catch (error) {
     throw new Error("Failed to calculate amount: " + error.message);
   }
