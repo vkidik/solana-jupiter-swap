@@ -28,7 +28,7 @@ This project is a Node.js tool that integrates with the [Jupiter](https://jup.ag
 
 2. Install dependencies:
    ```bash
-   npm install @jup-ag/api @solana/web3.js @project-serum/anchor bs58 promise_retry
+   npm install
    ```
 
 ## Configuration

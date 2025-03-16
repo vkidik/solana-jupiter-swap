@@ -31,9 +31,7 @@ try {
   if (!CONFIG.PRIVATE_KEY) throw new Error("Missing configuration: PRIVATE_KEY");
   if (!CONFIG.INPUT_MINT) throw new Error("Missing configuration: INPUT_MINT");
   if (!CONFIG.OUTPUT_MINT) throw new Error("Missing configuration: OUTPUT_MINT");
-  if (!CONFIG.AMOUNT_TYPE) throw new Error("Missing configuration: AMOUNT_TYPE");
-  if (CONFIG.AMOUNT_TYPE !== "PERCENT" && CONFIG.AMOUNT_TYPE !== "AMOUNT") throw new Error("Invalid configuration: AMOUNT_TYPE must be either 'PERCENT' or 'AMOUNT'")
-  if (CONFIG.AMOUNT_VALUE === undefined || CONFIG.AMOUNT_VALUE === null) throw new Error("Missing configuration: AMOUNT_VALUE");
+  if (CONFIG.AMOUNT === undefined || CONFIG.AMOUNT === null) throw new Error("Missing configuration: AMOUNT");
 } catch (error) {
   console.error("Configuration error:", error.message);
   process.exit(1);
