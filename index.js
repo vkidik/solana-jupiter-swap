@@ -21,11 +21,15 @@ const CONFIG = {
   },
   INPUT_MINT: "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB", // the token from which the amount is debited (for example, USDT)
   OUTPUT_MINT: "So11111111111111111111111111111111111111112", // the token that we receive (for example, Wrapped SOL)
-  AMOUNT: "100" // The value can be specified as a number (e.g., “100”), which is a fixed native amount, or as a percentage (e.g., “50%”), which is a percentage of the balance
+  AMOUNT: "10%" // The value can be specified as a number (e.g., “100”), which is a fixed native amount, or as a percentage (e.g., “50%”), which is a percentage of the balance
 };
 
 const connection = new Connection("https://api.mainnet-beta.solana.com");
 const jupiterQuoteApi = createJupiterApiClient();
+// const jupiterQuoteApi = createJupiterApiClient({
+//   cluster: "devnet",
+//   endpoint: "https://quote-api.jup.ag/v4" // (optional—defaults to v4 mainnet if omitted)
+// });
 
 try {
   if (!CONFIG.PRIVATE_KEY) throw new Error("Missing configuration: PRIVATE_KEY");
